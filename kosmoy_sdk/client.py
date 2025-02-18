@@ -37,7 +37,11 @@ class CustomOpenAI:
     @property
     def chat(self) -> CustomChatCompletions:
         return self._chat
-        
+
+    @property
+    def beta(self):
+        return self._client.beta
+
 class GatewayClient(KosmoyBase):
     def __init__(
         self,
