@@ -75,7 +75,7 @@ class GatewayConfig(BaseModel):
     """Configuration model for the Gateway client"""
     app_id: str
     api_key: str
-    environment: KosmoyEnvironment = KosmoyEnvironment.PRODUCTION,
+    environment: KosmoyEnvironment = KosmoyEnvironment.PRODUCTION
     timeout: int = 30
     max_retries: int = 3
     base_url: str
