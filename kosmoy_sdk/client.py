@@ -1,4 +1,4 @@
-from kosmoy_sdk.config import settings
+from kosmoy_sdk.environment import KosmoyEnvironment
 from openai import OpenAI
 from kosmoy_sdk._kosmoy_base import KosmoyBase
 from kosmoy_sdk.exceptions import FunctionalityNotImplemented
@@ -47,13 +47,14 @@ class GatewayClient(KosmoyBase):
         self,
         app_id: str,
         api_key: str,
+        environment: KosmoyEnvironment = KosmoyEnvironment.PRODUCTION,
         timeout: int = 30,
         max_retries: int = 3
     ):
-        super().__init__(app_id=app_id, api_key=api_key, timeout=timeout, max_retries=max_retries)
+        super().__init__(app_id=app_id, api_key=api_key, environment=environment, timeout=timeout, max_retries=max_retries)
         
         self.client = CustomOpenAI(
-            base_url=f"{settings.base_url}/gateway/invoke",
+            base_url=f"{self.gateway_config.base_url}/gateway/invoke",
             api_key=api_key,
             default_headers={
                 "app-id": app_id,
