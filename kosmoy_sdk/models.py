@@ -2,6 +2,8 @@ from datetime import datetime
 from typing import Optional, Dict, Any, List
 from pydantic import BaseModel, Field
 
+from kosmoy_sdk.environment import KosmoyEnvironment
+
 
 class BaseResponseModel(BaseModel):
     """Base response model that contains common fields for API responses"""
@@ -32,7 +34,7 @@ class GatewayBase(BaseModel):
 class Gateway(GatewayBase):
     id: int
     created_at: datetime
-    created_by_user: CreatedByResponse
+    created_by_user: Optional[CreatedByResponse] = Field(None, alias='created_by_user')
 
 
 class GuardrailBase(BaseModel):
@@ -53,7 +55,7 @@ class RouterSimpleResponse(BaseModel):
 
 class GatewayDetail(Gateway):
     models: List[ModelsSimpleResponse]
-    guardrails: List[GuardrailBase]
+    guardrails: Optional[List[GuardrailBase]] = Field(None, alias='guardrails')
     routers: Optional[List[RouterSimpleResponse]] = Field(None, alias="routers")
 
 class CodedAppBase(BaseModel):
@@ -73,6 +75,7 @@ class GatewayConfig(BaseModel):
     """Configuration model for the Gateway client"""
     app_id: str
     api_key: str
+    environment: KosmoyEnvironment = KosmoyEnvironment.PRODUCTION,
     timeout: int = 30
     max_retries: int = 3
     base_url: str

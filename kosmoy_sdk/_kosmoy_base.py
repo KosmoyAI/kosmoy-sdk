@@ -7,7 +7,7 @@ from kosmoy_sdk.models import (
     BaseResponseModel,
     CodedAppDetail
 )
-from kosmoy_sdk.config import settings
+from kosmoy_sdk.environment import KosmoyEnvironment
 
 
 class KosmoyBase:
@@ -15,6 +15,7 @@ class KosmoyBase:
         self,
         app_id: str,
         api_key: str,
+        environment: KosmoyEnvironment = KosmoyEnvironment.PRODUCTION,
         timeout: int = 30,
         max_retries: int = 3
     ):
@@ -26,7 +27,8 @@ class KosmoyBase:
             api_key=api_key,
             timeout=timeout,
             max_retries=max_retries,
-            base_url=settings.base_url
+            environment=environment,
+            base_url=environment.api_url
         )
         self.session = self._create_session()
 

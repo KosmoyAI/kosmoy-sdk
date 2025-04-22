@@ -1,9 +1,9 @@
 from langchain_openai import ChatOpenAI
 from kosmoy_sdk import GatewayConfig
 from kosmoy_sdk._kosmoy_base import KosmoyBase
-from kosmoy_sdk.config import settings
 from typing import Optional, Any
 from pydantic import Field
+from kosmoy_sdk.environment import KosmoyEnvironment
 
 
 class CustomChatOpenAI(ChatOpenAI):
@@ -20,6 +20,7 @@ class KosmoyGatewayLangchain(CustomChatOpenAI, KosmoyBase):
             api_key: str,
             model: str,
             use_guardrails: bool = False,
+            environment: KosmoyEnvironment = KosmoyEnvironment.PRODUCTION,
             timeout: int = 30,
             max_retries: int = 3,
             **kwargs
@@ -27,9 +28,10 @@ class KosmoyGatewayLangchain(CustomChatOpenAI, KosmoyBase):
         kwargs["metadata"] = {
             "use_guardrails": use_guardrails
         }
+
         CustomChatOpenAI.__init__(
             self,
-            base_url=f"{settings.base_url}/gateway/invoke",
+            base_url=f"{environment.api_url}/gateway/invoke",
             api_key=api_key,
             model=model,
             default_headers={
@@ -40,5 +42,7 @@ class KosmoyGatewayLangchain(CustomChatOpenAI, KosmoyBase):
             },
             **kwargs
         )
-        KosmoyBase.__init__(self, app_id=app_id, api_key=api_key, timeout=timeout, max_retries=max_retries)
+
+        KosmoyBase.__init__(self, app_id=app_id, api_key=api_key, environment=environment, timeout=timeout,
+                            max_retries=max_retries)
 
