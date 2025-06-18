@@ -23,7 +23,11 @@ class ModelsSimpleResponse(BaseModel):
     id: int
     service_config_id: int
     name: str
-    model_name: str
+    cost_input_token: float
+    cost_output_token: float
+    model_display_name: str
+    model_input: Optional[list[str]] = Field(None, alias='model_input')
+    model_output: Optional[list[str]] = Field(None, alias='model_output')
     description: Optional[str] = Field(None, alias='description')
     config_params: Optional[dict] = Field(None, alias='config_params')
 
