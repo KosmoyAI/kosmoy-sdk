@@ -7,7 +7,7 @@ def _make_requirements(req_file: str):
 
 setup(
     name="kosmoy-sdk",
-    version="0.1.4-dev",
+    version="0.1.5-dev",
     packages=find_packages(),
     include_package_data=True,
     install_requires=_make_requirements("requirements.txt"),
