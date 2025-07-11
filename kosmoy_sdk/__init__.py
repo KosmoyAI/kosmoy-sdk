@@ -8,7 +8,6 @@ from .models import (
     RouterSimpleResponse,
     GuardrailBase
 )
-from .environment import KosmoyEnvironment
 
 __all__ = [
     "GatewayClient",
@@ -18,6 +17,5 @@ __all__ = [
     "GatewayDetail",
     "ModelsSimpleResponse",
     "RouterSimpleResponse",
-    "GuardrailBase",
-    "KosmoyEnvironment"
+    "GuardrailBase"
 ]

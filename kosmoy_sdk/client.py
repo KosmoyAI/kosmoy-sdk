@@ -1,7 +1,7 @@
-from kosmoy_sdk.environment import KosmoyEnvironment
 from openai import OpenAI
 from kosmoy_sdk._kosmoy_base import KosmoyBase
 from kosmoy_sdk.exceptions import FunctionalityNotImplemented
+from typing import Optional
 
 
 class CustomChatCompletions:
@@ -82,11 +82,11 @@ class GatewayClient(KosmoyBase):
             self,
             app_id: str,
             api_key: str,
-            environment: KosmoyEnvironment = KosmoyEnvironment.PRODUCTION,
+            base_url: Optional[str] ,
             timeout: int = 30,
             max_retries: int = 3
     ):
-        super().__init__(app_id=app_id, api_key=api_key, environment=environment, timeout=timeout,
+        super().__init__(app_id=app_id, api_key=api_key,base_url=base_url,timeout=timeout,
                          max_retries=max_retries)
 
         self.client = CustomOpenAI(
