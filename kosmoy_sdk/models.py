@@ -1,9 +1,7 @@
 from datetime import datetime
 from typing import Optional, Dict, Any, List
 from pydantic import BaseModel, Field
-
-from kosmoy_sdk.environment import KosmoyEnvironment
-
+from kosmoy_sdk.environment import KOSMOY_URL
 
 class BaseResponseModel(BaseModel):
     """Base response model that contains common fields for API responses"""
@@ -79,7 +77,7 @@ class GatewayConfig(BaseModel):
     """Configuration model for the Gateway client"""
     app_id: str
     api_key: str
-    environment: KosmoyEnvironment = KosmoyEnvironment.PRODUCTION
+    environment: str = KOSMOY_URL
     timeout: int = 30
     max_retries: int = 3
     base_url: str

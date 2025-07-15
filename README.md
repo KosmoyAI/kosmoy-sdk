@@ -54,7 +54,6 @@ from kosmoy_sdk import GatewayClient
 client = GatewayClient(
     app_id="your_app_id",    
     api_key="your_api_key"
-    use_guardrails=True # Optionally enable guardrails [Message -> | Guardrail (inputs) | Model | Guardrail (output) | -> Response]
 )
 
 # Interact with a model (make sure the model is available in your Gateway)
@@ -78,7 +77,6 @@ client = KosmoyGatewayLangchain(
     app_id="your_app_id",  # Replace with your Coded App ID
     api_key="your_api_key",  # Replace with your API key
     model="gpt-4", # Replace with your model name configured in Kosmoy Studio,
-    use_guardrails=True # Optionally enable guardrails [Message -> | Guardrail (inputs) | Model | Guardrail (output) | -> Response]
 )
 
 # Create messages

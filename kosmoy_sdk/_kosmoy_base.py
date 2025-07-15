@@ -7,7 +7,7 @@ from kosmoy_sdk.models import (
     BaseResponseModel,
     CodedAppDetail
 )
-from kosmoy_sdk.environment import KosmoyEnvironment
+from kosmoy_sdk.environment import KOSMOY_URL 
 
 
 class KosmoyBase:
@@ -15,10 +15,12 @@ class KosmoyBase:
         self,
         app_id: str,
         api_key: str,
-        environment: KosmoyEnvironment = KosmoyEnvironment.PRODUCTION,
+        base_url: Optional[str],
         timeout: int = 30,
         max_retries: int = 3
     ):
+        if not base_url:
+            base_url = KOSMOY_URL
         if not app_id or not api_key:
             raise ValueError("Both app_id and api_key are required")
 
@@ -27,8 +29,7 @@ class KosmoyBase:
             api_key=api_key,
             timeout=timeout,
             max_retries=max_retries,
-            environment=environment,
-            base_url=environment.api_url
+            base_url= base_url
         )
         self.session = self._create_session()
 

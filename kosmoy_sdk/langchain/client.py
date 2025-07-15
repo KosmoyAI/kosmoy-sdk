@@ -3,7 +3,6 @@ from kosmoy_sdk import GatewayConfig
 from kosmoy_sdk._kosmoy_base import KosmoyBase
 from typing import Optional, Any
 from pydantic import Field
-from kosmoy_sdk.environment import KosmoyEnvironment
 
 
 class CustomChatOpenAI(ChatOpenAI):
@@ -28,18 +27,21 @@ class KosmoyGatewayLangchain(CustomChatOpenAI, KosmoyBase):
             api_key: str,
             model: str,
             use_guardrails: bool = False,
-            environment: KosmoyEnvironment = KosmoyEnvironment.PRODUCTION,
+            base_url: Optional[str] = None,
             timeout: int = 30,
             max_retries: int = 3,
             **kwargs
     ):
+        KosmoyBase.__init__(self, app_id=app_id, api_key=api_key,base_url=base_url,timeout=timeout,
+                            max_retries=max_retries)
+
         kwargs["metadata"] = {
             "use_guardrails": use_guardrails
         }
 
         CustomChatOpenAI.__init__(
             self,
-            base_url=f"{environment.api_url}/gateway/invoke",
+            base_url=f"{self.gateway_config.base_url}/gateway/invoke",
             api_key=api_key,
             model=model,
             default_headers={
@@ -51,10 +53,7 @@ class KosmoyGatewayLangchain(CustomChatOpenAI, KosmoyBase):
             **kwargs
         )
 
-        KosmoyBase.__init__(self, app_id=app_id, api_key=api_key, environment=environment, timeout=timeout,
-                            max_retries=max_retries)
-
-
+        
 class KosmoyGatewayEmbeddings(CustomOpenAIEmbeddings, KosmoyBase):
     """Kosmoy Gateway integration for Langchain Embeddings"""
 
@@ -64,14 +63,17 @@ class KosmoyGatewayEmbeddings(CustomOpenAIEmbeddings, KosmoyBase):
             api_key: str,
             model: str = "text-embedding-3-small",  # Default embeddings model
             use_guardrails: bool = False,
-            environment: KosmoyEnvironment = KosmoyEnvironment.PRODUCTION,
+            base_url: Optional[str] = None,
             timeout: int = 30,
             max_retries: int = 3,
             **kwargs
     ):
+        KosmoyBase.__init__(self, app_id=app_id, api_key=api_key,base_url=base_url,timeout=timeout,
+                            max_retries=max_retries)
+
         CustomOpenAIEmbeddings.__init__(
             self,
-            base_url=f"{environment.api_url}/gateway/invoke",
+            base_url=f"{self.gateway_config.base_url}/gateway/invoke",
             api_key=api_key,
             model=model,
             check_embedding_ctx_length=False,  # Disable context length check for embeddings
@@ -84,6 +86,4 @@ class KosmoyGatewayEmbeddings(CustomOpenAIEmbeddings, KosmoyBase):
             **kwargs
         )
 
-        KosmoyBase.__init__(self, app_id=app_id, api_key=api_key, environment=environment, timeout=timeout,
-                            max_retries=max_retries)
-
+        
