@@ -30,10 +30,11 @@ class KosmoyGatewayLangchain(CustomChatOpenAI, KosmoyBase):
             base_url: Optional[str] = None,
             timeout: int = 30,
             max_retries: int = 3,
+            verify_ssl: bool = True,
             **kwargs
     ):
         KosmoyBase.__init__(self, app_id=app_id, api_key=api_key,base_url=base_url,timeout=timeout,
-                            max_retries=max_retries)
+                            max_retries=max_retries,verify_ssl=verify_ssl)
 
         kwargs["metadata"] = {
             "use_guardrails": use_guardrails
@@ -66,10 +67,11 @@ class KosmoyGatewayEmbeddings(CustomOpenAIEmbeddings, KosmoyBase):
             base_url: Optional[str] = None,
             timeout: int = 30,
             max_retries: int = 3,
+            verify_ssl: bool = True,
             **kwargs
     ):
         KosmoyBase.__init__(self, app_id=app_id, api_key=api_key,base_url=base_url,timeout=timeout,
-                            max_retries=max_retries)
+                            max_retries=max_retries,verify_ssl=verify_ssl)
 
         CustomOpenAIEmbeddings.__init__(
             self,
