@@ -84,10 +84,11 @@ class GatewayClient(KosmoyBase):
             api_key: str,
             base_url: Optional[str] ,
             timeout: int = 30,
-            max_retries: int = 3
+            max_retries: int = 3,
+            verify_ssl: bool = True 
     ):
         super().__init__(app_id=app_id, api_key=api_key,base_url=base_url,timeout=timeout,
-                         max_retries=max_retries)
+                         max_retries=max_retries,verify_ssl=verify_ssl)
 
         self.client = CustomOpenAI(
             base_url=f"{self.gateway_config.base_url}/gateway/invoke",

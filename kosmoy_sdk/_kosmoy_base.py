@@ -17,7 +17,8 @@ class KosmoyBase:
         api_key: str,
         base_url: Optional[str],
         timeout: int = 30,
-        max_retries: int = 3
+        max_retries: int = 3,
+        verify_ssl: bool = True 
     ):
         if not base_url:
             base_url = KOSMOY_URL
@@ -31,6 +32,7 @@ class KosmoyBase:
             max_retries=max_retries,
             base_url= base_url
         )
+        self.verify_ssl = verify_ssl
         self.session = self._create_session()
 
     def _create_session(self) -> requests.Session:
@@ -69,6 +71,7 @@ class KosmoyBase:
                 json=data,
                 params=params,
                 headers=headers,
+                verify=self.verify_ssl,
                 timeout=self.gateway_config.timeout
             )
             response.raise_for_status()
